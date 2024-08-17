@@ -9,13 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Introduction
 
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+This article is adapted from a Medium article [**Analyzing Stocks Using R**](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/Analyzing-Stocks-Using-R_Harjanto.pdf) by _Joy Gracia Harjanto_ publiched at 24 August 2018.
 
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+Amazon (AMZN)’s stock experienced a 95.6% (+$918.93) increase this past year,
+which makes Amazon (AMZN) a desirable choice for many investors. Many analysts
+also believe Amazon (AMZN)’s value will continue to increase in the upcoming years. While it sounds tempting to purchase the stock, an elaborate in-depth analysis should be done to avoid purchasing the stock based on speculation.
 
-```{r echo=FALSE}
+I implemented my knowledge in Statistics and R skills to analyze its performance from a technical side and predict its future price. I heavily relied on a packages frequently used in quantitative finance such as `quantmod` and `xts` to fulfill my goal.
+
+Here is the complete list of packages I used:
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Load the required packages
 library(quantmod)
 library(xts)
 library(rvest)
@@ -28,9 +35,9 @@ library(dplyr)
 library(PerformanceAnalytics)
 ```
 
-## Including Plots
+I started my analysis by obtaining the log returns of Amazon’s stock beginning August 1st, 2008 to August 17th, 2018:
 
-```{r}
+```{r results='hide'}
 getSymbols("AMZN", from="2008-08-01", to="2018-08-17")
 AMZN_log_returns <- AMZN %>% Ad() %>% dailyReturn(type='log')
 ```
