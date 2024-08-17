@@ -12,4 +12,4 @@ Analyzing Stocks Using R
   The HTML file will be save at the sub-directory `HTML`.
   You can refer to the [rmarkdown documentation](https://pkgs.rstudio.com/rmarkdown/reference/render.html) for the usage of the `render` command.
   
-* For the use of Code Chunks options, please refer to the [R Markdown document](https://rmarkdown.rstudio.com/lesson-3.html)
+* For the use of Code Chunks options, please refer to the [R Markdown document](https://rmarkdown.rstudio.com/lesson-3.html) or [R Markdown Reference Guide](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/Reference-materials/rmarkdown-reference.pdf).

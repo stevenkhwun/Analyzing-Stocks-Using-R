@@ -42,16 +42,27 @@ getSymbols("AMZN", from="2008-08-01", to="2018-08-17")
 AMZN_log_returns <- AMZN %>% Ad() %>% dailyReturn(type='log')
 ```
 
+The log returns doesn’t make sense at this stage but it is actually the fundamental of my analysis. I will explain later.
+
+## Technical Analysis
+
+I started by doing a technical analysis of Amazon’s stock:
+
+The first chart series graph is straightforward as it shows Amazon’s price chart:
+
 ```{r}
 AMZN %>% Ad() %>% chartSeries()
+```
+
+The second chart series show the Bollinger Band chart, % Bollinger change, Volume
+Traded and Moving Average Convergence Diverence for 2018:
+
+```{r}
 AMZN %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2018')
 ```
 
+The moving average is important to understanding Amazon (AMZN)’s technical charts. It smoothes out daily price fluctuations by averaging stock prices and is effective in identifying potential trends.
 
-You can also embed plots, for example:
+The Bollinger Band chart plots two standard deviations away from the moving average and is used to measure the stock’s volatiliy. The Volume chart shows how its stocks are traded on the daily. The Moving Average Convergence Divergence gives technical analysts buy/sell signals. The rule of thumb is: If it falls below the line, it is time to sell. If it rises above the line, it is experiencing an upward momentum.
 
-```{r pressure, echo=FALSE}
-plot(pressure)
-```
-
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+The charts above are usually used to decide whether to buy/sell a stock. Since I am not a certified financial analyst, I decided to do additional research to convince myself.
