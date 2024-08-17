@@ -5,6 +5,9 @@ Analyzing Stocks Using R
 
 * The source code can be found in the Author's [GitHub site](https://github.com/joyharjanto/mcmc-stock).
 
+* My version of the article can be found [here](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Analyzing-Stocks-Using-R.html).
+
+
 * To create a HTML document from .Rmd file type the following command in the R console:
   ```R
   source("Render-to-HTML.R")
