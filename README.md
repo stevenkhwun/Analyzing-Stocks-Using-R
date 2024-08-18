@@ -7,6 +7,10 @@ Analyzing Stocks Using R
 
 * The documentation for `quantmod` can be found [here](https://cran.r-project.org/web/packages/quantmod/quantmod.pdf).
 
+* The book [Technical Analysis with R](https://bookdown.org/kochiuyu/technical-analysis-with-r-second-edition2/) provides a short introduction on how to use R and RStudio to do financial data analysis from the beginning.
+
+* This [article](https://medium.com/@darkthanos009/mastering-financial-analysis-in-r-the-top-libraries-for-data-analysis-and-investment-strategies-4ee7d5ed8c36) provides a brief discussion on libraries available in `R` for financial analysis.
+
 * My version of the article can be found [here](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Analyzing-Stocks-Using-R.html).
 
 
