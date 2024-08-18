@@ -1,0 +1,77 @@
+---
+title: "Quantitative Finance Applications in R - 3: Plotting xts Time Series"
+author: "SW"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Introduction and Data Setup
+
+We first obtain the data using quantmod, going back to January 2007:
+
+```{r message=FALSE, results='hide'}
+library(quantmod)
+tckrs <- c("SPY", "QQQ", "GDX", "DBO", "VWO")
+getSymbols(tckrs, from = "2007-01-01")
+```
+
+Then, extract just the closing prices from each set:
+
+```{r}
+SPY.Close <- SPY[,4]
+QQQ.Close <- QQQ[,4]
+GDX.Close <- GDX[,4]
+DBO.Close <- DBO[,4]
+VWO.Close <- VWO[,4]
+```
+
+What we want is the set of cumulative returns for each, in the sense of the cumulative value of $1 over time.  To do this, it is simply a case of dividing each daily price in the series by the price on the first day of the series.  As `SPY.Close[1]`, for example, is itself an `xts` object, we need to coerce it to numeric in order to carry out the division:
+
+```{r}
+SPY1 <- as.numeric(SPY.Close[1])
+QQQ1 <- as.numeric(QQQ.Close[1])
+GDX1 <- as.numeric(GDX.Close[1])
+DBO1 <- as.numeric(DBO.Close[1])
+VWO1 <- as.numeric(VWO.Close[1])
+```
+
+Then, it’s a case of dividing each series by the price on the first day, just as one would divide an R vector by a scalar.  For convenience of notation, we’ll just save these results back into the original ETF ticker names and overwrite the original objects:
+
+```{r}
+SPY <- SPY.Close/SPY1
+QQQ <- QQQ.Close/QQQ1
+GDX <- GDX.Close/GDX1
+DBO <- DBO.Close/DBO1
+VWO <- VWO.Close/VWO1
+```
+
+We then merge all of these `xts` time series into a single `xts` object (i.e. a matrix):
+
+```{r}
+basket <- cbind(SPY, QQQ, GDX, DBO, VWO)
+is.xts(basket)
+```
+
+Note that `is.xts(basket)` returns `TRUE`. We can also have a look at the data and its structure:
+
+```{r}
+head(basket, n =3)
+tail(basket, n =3)
+```
+
+
+
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+plot(pressure)
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
