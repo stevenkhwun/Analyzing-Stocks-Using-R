@@ -9,7 +9,20 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
+This document is adapted from an article titled [**Quantitative Finance Applications in R - 3: Plotting xts Time Series**](https://blog.revolutionanalytics.com/2014/01/quantitative-finance-applications-in-r-plotting-xts-time-series.html) by _Daniel Hanson_.
+
+
 ## Introduction and Data Setup
+
+Last time, we included a couple of examples of plotting a single `xts` time series using the `plot(.)` function (ie, said function included in the `xts` package).  Today, we’ll look at some quick and easy methods for plotting overlays of multiple `xts` time series in a single graph.  As this information is not explicitly covered in the examples provided with `xts` and base `R`, this discussion may save you a bit of time.
+
+To start, let’s look at five sets of cumulative returns for the following ETF’s:
+
+* SPY SPDR S&P 500 ETF Trust
+* QQQ PowerShares NASDAQ QQQ Trust
+* GDX Market Vectors Gold Miners ETF
+* DBO PowerShares DB Oil Fund (ETF)
+* VWO Vanguard FTSE Emerging Markets ETF
 
 We first obtain the data using quantmod, going back to January 2007:
 
@@ -133,3 +146,14 @@ legend(x = 'topleft', legend = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
        lty = 1, col = myColors)
 ```
 
+As mentioned, we need to add each time series separately in this case in order to get the desired overlays.  If one were to try `x` = basket in the plot function, the graph would only display the first series (`SPY`), and a warning message would be returned to the R session.  So, we first use the `SPY` series as input to the `plot(.)` function, and then add the remaining series with the `lines(.)` command.  The color for each series is also included at each step (the same colors in our `myColors` vector).
+
+As for the remaining arguments in the `plot` command, we use the same axis and title settings in `xlab`, `ylab`, and `main`.  We set the scale of the vertical axis with the `ylim` parameter; noting from our previous example that `VWO` hovered near zero at the low end, and that `DBO` reached almost as high as 12, we set this range from 0.0 to 12.  Two new arguments here are the `major.ticks` and `minor.ticks` settings. The `major.ticks` argument represents the periods in which we wish to chop up the horizontal axis; it is chosen from the set
+
+`{"years", "months", "weeks", "days", "hours", "minutes", "seconds"}`
+
+In the example above, we chose "`years`".  The `minor.ticks` parameter can take values of `TRUE`/`FALSE`, and as we don’t need this for the graph, we choose `FALSE`.  The same `legend` command that we used in the `zoo` case can be used here as well (using `myColors` to indicate the color of each time series plot).
+
+## Wrap-up
+
+A new package, called `xtsExtra`, includes a new `plot(.)` function that provides added functionality, including a legend generator.  However, while it is available on R-Forge, it has not yet made it into the official CRAN repository.  More sophisticated time series plotting capability can also be found in the `quantmod` and `ggplot2` packages, and we will look at the `ggplot2` case in an upcoming post.  However, for plotting `xts` objects quickly and with minimal fuss, the `plot(.)` function in the `zoo` package fills the bill, and with a little more effort, we can refine the scale along the horizontal axis using the `xts` version of `plot(.)`.  `R` help files for each of these can be found by selecting `plot.zoo` and `plot.xts` respectively in help searches.
