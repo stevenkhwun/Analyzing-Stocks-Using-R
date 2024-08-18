@@ -1,0 +1,129 @@
+---
+title: "Retrieve economic data using `quantmod`"
+author: "SW"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Various financial and economic data can be retrieved by using `quantmod` library. Of course, we need to load the library first:
+
+```{r message=FALSE}
+# Load the 'quantmod' library
+library(quantmod)
+```
+
+
+## Retrieve stock prices from Yahoo Finance
+
+### For stocks with stock tickers beginning with letter
+
+We demonstrate the method by obtaining the stock prices of Apple Inc. (AAPL).
+
+```{r results='hide'}
+# Get stock prices of Apple
+getSymbols("AAPL", from=(Sys.Date()-730), to=Sys.Date())
+```
+
+We can observe the loaded data with the following commands:
+
+```{r}
+# The size of the loaded dataset
+dim(AAPL)
+# The first 6 rows of the dataset
+head(AAPL)
+# The last 6 rows of the dataset
+tail(AAPL)
+```
+
+We can create a plot of closing prices and trading volumes with the following commands:
+
+```{r}
+# Create time plot
+# The option 'theme="white" set the background of the time plot
+# The default of this option is "black"
+chartSeries(AAPL, theme = "white")
+```
+
+### For stocks with stock tickers beginning with number
+
+We need to set the option `auto.assign=FALS` it the stock tickers beginning with a number when calling `getSymbols()`. This will allow you to assign the data returned to a variable name of your choice.
+
+We demonstrate the method by obtaining the stock prices of HSBC (0005).
+
+```{r results='hide', warning=FALSE}
+# Get HSBC stock price
+HSBC.HK <- getSymbols("0005.HK",from="2022-08-17", to=Sys.Date(),
+                      auto.assign = FALSE)
+```
+
+We can observe the loaded data with the following commands:
+
+```{r}
+# The size of the loaded data set
+dim(HSBC.HK)
+# The first 6 row of data
+head(HSBC.HK)
+# The last 6 row of data
+tail(HSBC.HK)
+```
+
+We can create a plot of closing prices and trading volumes with the following commands:
+
+```{r}
+# Create time plot
+chartSeries(HSBC.HK,theme="white")
+```
+
+```{r}
+normalise_series <- function(xdat) xdat / coredata(xdat)[1]
+window <- "2023/"
+mytheme <- chart_theme()
+mytheme$col$line.col <- "darkgreen"
+TA <- chart_Series(normalise_series(Cl(AAPL)[window])-1, name = "AAPL vs HSBC", legend = "AAPL", theme = mytheme)
+TA <- add_TA(normalise_series(Cl(HSBC.HK)[window])-1, on = 1, legend = "HSBC", col = "red", lty = 3)
+TA
+```
+
+
+## Retrieve daily interest rate of 10-year treasures notes
+
+```{r}
+# Retrieve daily interest rate of 10-year treasures notes
+# These are interest rates from the Chicago Board Options Exchange (CBOE)
+# obtained from Yahoo Finance
+getSymbols("^TNX")
+#See the size of the loaded data set
+dim(TNX)
+#See the first 6 row of data
+#Note that the trading volume is 0
+head(TNX)
+#See the last 6 row of data
+tail(TNX)
+#Obtain time plot of daily interest rates without trading volume
+#The subcommand TA=NULL is used to omit the time plot of volume
+chartSeries(TNX,theme="white",TA=NULL)
+```
+
+
+## Retrieve economic data from the Federal Reserve Economic Data (FRED) of Federal Reserve Bank of St. Louis
+
+```{r}
+# Retrieve financial data from FRED
+# Load monthly unemployment rate from FRED
+getSymbols("UNRATE", src="FRED")
+#See the size of the loaded data set
+dim(UNRATE)
+#See the first 6 row of data
+head(UNRATE)
+#See the last 6 row of data
+tail(UNRATE)
+#Obtain time plot of monthly U.S. unemployment rates
+#The subcommand theme="white" set the background of the time plot
+#The default is black
+chartSeries(UNRATE)
+```
+

@@ -1,0 +1,109 @@
+---
+title: "Adding Multiple Chart Series in Quantmod R"
+author: "SW"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This document is based on a post on **stackoverflow** with the title [Adding Multiple Chart Series in Quantmod R](https://stackoverflow.com/questions/38136008/adding-multiple-chart-series-in-quantmod-r).
+
+## Getting the data
+
+We load the required package first:
+
+```{r message=FALSE, warning=FALSE}
+library(quantmod)
+```
+
+You can get multiple stocks by specifying the required stocks in a vector by `c()` function. Further, we can assign these variables in a created environment, named `data` below.
+
+```{r results=FALSE}
+tickers <- c('GLD', 'GDX')
+data <- new.env()
+getSymbols(tickers, src = 'yahoo', from = '1980-01-01', env = data)
+```
+
+However, you need to add `data$` before to read the data, for example:
+
+```{r}
+head(data$GDX)
+```
+
+
+## Creating multiple chart series
+
+We use `chart_Series` to create multiple chart series:
+
+```{r eval=FALSE}
+chart_Series(Cl(data$GLD))
+add_TA(Cl(data$GDX), on = 1)
+```
+
+However, in RStudio, the above codes will produce two plots, one with only one series `GLD` and the second one has both series in the same plot. As a result, we need to assign the plot to a varaible first and print it the chart is completed.
+
+```{r}
+Chart1 <- chart_Series(Cl(data$GLD))
+Chart1 <- add_TA(Cl(data$GDX), on = 1)
+Chart1
+```
+
+And then if you want RSI below in a sub panel, just add `add_RSI()`.
+
+```{r}
+Chart1 <- add_RSI()
+Chart1
+```
+
+## Compare relative changes in multiple chart series
+
+To see relative changes more easily, you can normalise your price series in many ways. This is a typical approach (using a 0 origin is what Google charts does). First we create the normalising function.
+
+```{r}
+# Create the normalising function
+normalise_series <- function(xdat) xdat / coredata(xdat)[1]
+```
+
+We get one more stock price. In this time, we don't assign it to the `data$` environment. As a result, when we retrieve the data, we just need to type the variable name.
+
+```{r results='hide'}
+getSymbols("USO")
+```
+
+Further, we create a variable `window` which assign a period to it. In the following example, we assign `2013/` to the window variable, which means that we get the data from 2013 up to now. We can also assign, say `2013/2016-6` to the variable, which means we want the data from 2013 up to June of 2016.
+
+```{r}
+window <- "2013/"
+```
+
+We can also define a default chart line to chart_Series in `mytheme` object.
+
+```{r}
+# Define colour of default chart line to chart_Series in mytheme object
+# which is passed to chart_Series
+mytheme <- chart_theme()
+mytheme$col$line.col <- "darkgreen"
+```
+
+Now, we can create the chart:
+
+```{r}
+Chart2 <- chart_Series(normalise_series(Cl(data$GLD)[window])-1, theme = mytheme)
+Chart2 <- add_TA(normalise_series(Cl(data$GDX)[window]) -1, on = 1, col = "red", lty = 3)
+Chart2 <- add_TA(normalise_series(Cl(USO)[window])-1, on = 1, col = "blue", lty = 2)
+Chart2
+```
+
+Finally, we can add RSI below.
+
+```{r}
+Chart2 <- add_TA(RSI(Cl(data$GLD)), on = NA, col = "darkgreen")
+Chart2 <- add_TA(RSI(Cl(data$GDX)), on = 2, col = "red", lty = 3)
+# Or add RSIs on different subpanels to improve readability of charts:
+Chart2 <- add_TA(RSI(Cl(USO)), on = NA, col = "blue", lty = 2)
+Chart2
+```
+
