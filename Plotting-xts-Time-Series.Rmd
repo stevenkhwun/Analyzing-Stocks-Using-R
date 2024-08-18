@@ -63,15 +63,73 @@ head(basket, n =3)
 tail(basket, n =3)
 ```
 
+Note that we have a few `NA` values here. This will not be of any significant consequence for demonstrating plotting functions, however.
+
+We will now look how we can plot all five series, overlayed on a single graph.  In particular, we will look at the `plot(.)` functions in both the `zoo` and `xts` packages.
 
 
+## Using `plot(.)` in the zoo package
 
-## Including Plots
+The `xts` package is an extension of the `zoo` package, so coercing our `xts` object basket to a zoo object is a simple task:
 
-You can also embed plots, for example:
-
-```{r pressure, echo=FALSE}
-plot(pressure)
+```{r}
+zoo.basket <- as.zoo(basket)
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+Looking at `head(zoo.basket)` and `tail(zoo.basket)`, we will get output that looks the same as what we got for the original `xts` `basket` object, as shown above; the date to data mapping is preserved. The `plot(.)` function provided in zoo is very simple to use, as we can use the whole `zoo.basket` object as input, and the `plot(.)` function will overlay the time series and scale the vertical axis for us with the help of a single parameter setting, namely the screens parameter.
+
+Let’s now look at the code and the resulting plot in the following example, and then explain what’s going on:
+
+```{r}
+# Set a color scheme:
+tsRainbow <- rainbow(ncol(zoo.basket))
+
+# Plot the overlayed series
+plot(x = zoo.basket, ylab = "Cumulative Return", main = "Cumulative Returns",
+     col = tsRainbow, screens = 1)
+
+# Set a legend in the upper left hand corner to match color to return series
+legend(x = "topleft", legend = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
+       lty = 1,col = tsRainbow)
+```
+
+We started by setting a color scheme, using the `rainbow(.)` command that is included in the base R installation.  It is convenient as R will take in an arbitrary positive integer value and select a sequence of distinct colors up to the number specified.  This is a nice feature for the impatient or lazy among us (yes, guilty as charged) who don’t want to be bothered with picking out colors and just want to see the result right away.
+
+Next, in the `plot(.)` command, we assign to `x` our “matrix” of time series in the `zoo.basket` object, labels for the horizontal and vertical axes (`xlab`, `ylab`), a title for the graph (`main`), the the colors (`col`). Last, but crucial, is the parameter setting `screens = 1`, which tells the plot command to overlay each series in a single graph.
+
+Finally, we include the `legend(.)` command to place a color legend at the upper left hand corner of the graph.  The position (`x`) may be chosen from the list of keywords "`bottomright`", "`bottom`", "`bottomleft`", "`left`", "`topleft`", "`top`", "`topright`", "`right`" and "`center`"; in our case, we chose "`topleft`".  The `legend` parameter is simply the list of ticker names.  The `lty` parameter refers to “line type”, and by setting it to `1`, the lines in the legend are shown as solid lines, and as in the `plot(.)` function, the same color scheme is assigned to the parameter `col`.
+
+Back to the color scheme, we may at some point need to show our results to a manager or a client, so in that case, we probably will want to choose colors that are easier on the eye.  In this case, one can just store the colors into a vector, and then use it as an input parameter.  For example, set
+
+```{r}
+myColors <- c("red", "darkgreen", "goldenrod", "darkblue", "darkviolet")
+```
+
+Then, just replace `col = tsRainbow` with `col = myColors` in the `plot` and `legend` commands:
+
+```{r}
+plot(x = zoo.basket, xlab = "Time", ylab = "Cumulative Return",
+     main = "Cumulative Returns", col = myColors, screens = 1)
+legend(x = "topleft", legend = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
+       lty = 1, col = myColors)
+```
+
+## Using `plot(.)` in the `xts` package
+
+While the `plot(.)` function in `zoo` gave us a quick and convenient way of plotting multiple time series, it didn’t give us much control over the scale used along the horizontal axis. Using `plot(.)` in `xts` remedies this; however, it involves doing more work.  In particular, we can no longer input the entire “matrix” object; we must add each series separately in order to layer the plots. We also need to specify the scale along the vertical axis, as in the `xts` case, the function will not do this on the fly as it did for us in the zoo case.
+
+We will use individual columns from our original `xts` object, `basket`.  By using `basket` rather than `basket.zoo`, this tells R to use the `xts` version of the function rather than the `zoo` version (i.e. an overloaded function in traditional object oriented programming).  Let’s again look at an example and the resulting plot, and then discuss how it works:
+
+
+```{r fig.keep='last'}
+plot(x = basket[,"SPY.Close"], xlab = "Time", ylab = "Cumulative Return",
+     main = "Cumulative Returns", ylim = c(0.0, 12), major.ticks= "years",
+     minor.ticks = FALSE, col = "red")
+lines(x = basket[,"QQQ.Close"], col = "darkgreen")
+lines(x = basket[,"GDX.Close"], col = "goldenrod")
+lines(x = basket[,"DBO.Close"], col = "darkblue")
+lines(x = basket[,"VWO.Close"], col = "darkviolet")
+legend(x = 'topleft', legend = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
+       lty = 1, col = myColors)
+```
+
