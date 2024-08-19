@@ -65,10 +65,8 @@ We can observe the loaded data with the following commands:
 ```{r}
 # The size of the loaded data set
 dim(HSBC.HK)
-# The first 6 row of data
-head(HSBC.HK)
-# The last 6 row of data
-tail(HSBC.HK)
+# The last 3 rows of data
+tail(HSBC.HK, n = 3)
 ```
 
 We can create a plot of closing prices and trading volumes with the following commands:
@@ -77,6 +75,17 @@ We can create a plot of closing prices and trading volumes with the following co
 # Create time plot
 chartSeries(HSBC.HK,theme="white")
 ```
+
+We now try another example in getting stock prices of Hon Hai Precision Industry Co., Ltd. (2317.TW) listed in Taiwan Stock Exchange.
+
+```{r warning=FALSE}
+# Get Hon Hai Precision Industry Co., Ltd
+Honhai.TW <- getSymbols("2317.TW",from=(Sys.Date()-730), to=Sys.Date(),
+                      auto.assign = FALSE)
+tail(Honhai.TW, n = 3)
+```
+
+We can compare performance of the stocks by the following commands:
 
 ```{r}
 normalise_series <- function(xdat) xdat / coredata(xdat)[1]
@@ -87,6 +96,26 @@ TA <- chart_Series(normalise_series(Cl(AAPL)[window])-1, name = "AAPL vs HSBC", 
 TA <- add_TA(normalise_series(Cl(HSBC.HK)[window])-1, on = 1, legend = "HSBC", col = "red", lty = 3)
 TA
 ```
+
+## Retrieve financial information using `getQuote`
+
+Please see the following example:
+
+```{r}
+what_metrics <- yahooQF(c("Name",
+                          "Volume",
+                          "P/E Ratio",
+                          "Dividend Yield"))
+tickers <- c("AAPL", "0005.HK")
+getQuote(tickers, what = what_metrics)
+```
+
+You can get the list of available financial information by typing:
+
+```{r eval=FALSE}
+yahooQF()
+```
+
 
 
 ## Retrieve daily interest rate of 10-year treasures notes
