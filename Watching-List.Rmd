@@ -1,0 +1,107 @@
+---
+title: "Analyzing Stocks Using R"
+author: "SW"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+
+
+First I create my watching list:
+
+```{r echo=TRUE, warning=FALSE, message=FALSE}
+# Load the required packages
+library(quantmod)
+library(xts)
+library(rvest)
+library(tidyverse)
+library(stringr)
+library(forcats)
+library(lubridate)
+library(plotly)
+library(dplyr)
+library(PerformanceAnalytics)
+```
+
+
+## Watching List
+
+Firstly, I create my watching list:
+
+```{r results='hide'}
+index <- c("^GSPC", "^IXIC", "^DJI", "^FTSE", "^N225","^TWII", "^HSI")
+
+tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK")
+```
+
+Get some knowledge of their performance first:
+
+```{r}
+what_metrics1 <- yahooQF(c("Name",
+                          "Currency",
+                          "Last Trade (Price Only)",
+                          "P/E Ratio",
+                          "Dividend Yield"))
+getQuote(tickers, what = what_metrics1)
+```
+
+```{r}
+what_metrics2 <- yahooQF(c("Name",
+                          "Last Trade (Price Only)",
+                          "52-week Range",
+                          "Currency",
+                          "Volume"))
+getQuote(index, what = what_metrics2)
+```
+
+```{r}
+getSymbols("^HSI", from="1997-07-02")
+head(HSI, n=3)
+```
+
+```{r}
+window <- "2021/"
+chartSeries((HSI)[window],theme="white")
+```
+
+```{r}
+window <- "2018/"
+chart_Series(Vo(HSI)[window])
+```
+
+
+```{r}
+getSymbols("AMZN")
+getSymbols(tickers)
+tail(AMZN, n=3)
+```
+
+
+The log returns doesn’t make sense at this stage but it is actually the fundamental of my analysis. I will explain later.
+
+## Technical Analysis
+
+I started by doing a technical analysis of Amazon’s stock:
+
+The first chart series graph is straightforward as it shows Amazon’s price chart:
+
+```{r}
+GOLD %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2024/', theme = "white")
+```
+
+The second chart series show the Bollinger Band chart, % Bollinger change, Volume
+Traded and Moving Average Convergence Diverence for 2018:
+
+```{r}
+HSI %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2024/', theme = "white")
+```
+
+The moving average is important to understanding Amazon (AMZN)’s technical charts. It smoothes out daily price fluctuations by averaging stock prices and is effective in identifying potential trends.
+
+The Bollinger Band chart plots two standard deviations away from the moving average and is used to measure the stock’s volatiliy. The Volume chart shows how its stocks are traded on the daily. The Moving Average Convergence Divergence gives technical analysts buy/sell signals. The rule of thumb is: If it falls below the line, it is time to sell. If it rises above the line, it is experiencing an upward momentum.
+
+The charts above are usually used to decide whether to buy/sell a stock. Since I am not a certified financial analyst, I decided to do additional research to convince myself.

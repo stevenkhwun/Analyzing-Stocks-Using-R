@@ -103,7 +103,8 @@ Please see the following example:
 
 ```{r}
 what_metrics <- yahooQF(c("Name",
-                          "Volume",
+                          "Currency",
+                          "Last Trade (Price Only)",
                           "P/E Ratio",
                           "Dividend Yield"))
 tickers <- c("AAPL", "0005.HK")
