@@ -26,3 +26,4 @@
   * [Plotting xts Time Series](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Plotting-xts-Time-Series.html)
   * [Quantmod Notes](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/quantmod_Notes.html)
   * [Watching List](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Watching-List.html)
+  * [Technical Analysis](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Technical.html)
