@@ -384,22 +384,22 @@ tickers &lt;- c(&quot;AAPL&quot;, &quot;AMZN&quot;, &quot;NVDA&quot;, &quot;GOLD
 getQuote(tickers, what = what_metrics1)</code></pre>
 <pre><code>## Warning in getQuote.yahoo(Symbols = c(&quot;AAPL&quot;, &quot;AMZN&quot;, &quot;NVDA&quot;, &quot;GOLD&quot;, &quot;GOOG&quot;, :
 ## symbols have different timezones; converting to local time</code></pre>
-<pre><code>##                  Trade Time                     Name Currency   Last P/E Ratio
-## AAPL    2024-08-22 04:00:01               Apple Inc.      USD 226.40 34.459663
-## AMZN    2024-08-22 04:00:01         Amazon.com, Inc.      USD 180.11 42.883335
-## NVDA    2024-08-22 04:00:01       NVIDIA Corporation      USD 128.50 75.146194
-## GOLD    2024-08-22 04:00:02 Barrick Gold Corporation      USD  20.62 23.976746
-## GOOG    2024-08-22 04:00:01            Alphabet Inc.      USD 167.63 24.050217
-## GOOGL   2024-08-22 04:00:01            Alphabet Inc.      USD 165.85 23.794836
-## 0001.HK 2024-08-22 16:08:11             CKH HOLDINGS      HKD  41.45  7.061329
-## 0005.HK 2024-08-22 16:08:11            HSBC HOLDINGS      HKD  66.80  7.389381
+<pre><code>##                  Trade Time                     Name Currency    Last P/E Ratio
+## AAPL    2024-08-22 22:02:30               Apple Inc.      USD 228.000 34.703194
+## AMZN    2024-08-22 22:02:29         Amazon.com, Inc.      USD 179.890 42.830956
+## NVDA    2024-08-22 22:02:30       NVIDIA Corporation      USD 129.280 75.602330
+## GOLD    2024-08-22 22:02:28 Barrick Gold Corporation      USD  20.295 23.598837
+## GOOG    2024-08-22 22:02:25            Alphabet Inc.      USD 168.470 24.170732
+## GOOGL   2024-08-22 22:02:29            Alphabet Inc.      USD 166.705 23.917505
+## 0001.HK 2024-08-22 16:08:11             CKH HOLDINGS      HKD  41.450  7.061329
+## 0005.HK 2024-08-22 16:08:11            HSBC HOLDINGS      HKD  66.800  7.389381
 ##         Dividend Yield
-## AAPL      0.0042823720
+## AAPL      0.0042844526
 ## AMZN      0.0000000000
-## NVDA      0.0001257367
-## GOLD      0.0195982360
-## GOOG      0.0011837120
-## GOOGL     0.0011963154
+## NVDA      0.0001245136
+## GOLD      0.0193986400
+## GOOG      0.0011931038
+## GOOGL     0.0012059090
 ## 0001.HK   0.0606650300
 ## 0005.HK   0.0092145020</code></pre>
 <pre class="r"><code>what_metrics2 &lt;- yahooQF(c(&quot;Name&quot;,
@@ -411,21 +411,21 @@ getQuote(index, what = what_metrics2)</code></pre>
 <pre><code>## Warning in getQuote.yahoo(Symbols = c(&quot;^GSPC&quot;, &quot;^IXIC&quot;, &quot;^DJI&quot;, &quot;^FTSE&quot;, : symbols
 ## have different timezones; converting to local time</code></pre>
 <pre><code>##                Trade Time                            Name     Last
-## ^GSPC 2024-08-22 04:53:47                         S&amp;P 500  5620.85
-## ^IXIC 2024-08-22 05:15:59                NASDAQ Composite 17918.99
-## ^DJI  2024-08-22 04:53:47    Dow Jones Industrial Average 40890.49
-## ^FTSE 2024-08-22 21:14:19                        FTSE 100  8287.49
+## ^GSPC 2024-08-22 22:02:30                         S&amp;P 500  5632.11
+## ^IXIC 2024-08-22 22:02:25                NASDAQ Composite 17959.04
+## ^DJI  2024-08-22 22:02:30    Dow Jones Industrial Average 40903.23
+## ^FTSE 2024-08-22 21:47:29                        FTSE 100  8295.70
 ## ^N225 2024-08-22 14:15:02                      Nikkei 225 38211.01
 ## ^TWII 2024-08-22 13:33:15 TSEC CAPITALIZATION WEIGHTED ST 22148.83
 ## ^HSI  2024-08-22 16:08:32                 HANG SENG INDEX 17641.00
-##             52-week Range Currency     Volume
-## ^GSPC   4103.78 - 5669.67      USD 2012469000
-## ^IXIC 12543.86 - 18671.07      USD 4353136000
-## ^DJI    32327.2 - 41376.0      USD  281462935
-## ^FTSE     7279.9 - 8474.4      GBP          0
-## ^N225 30487.67 - 42426.77      JPY          0
-## ^TWII 15975.91 - 24416.67      TWD          0
-## ^HSI  14794.16 - 19706.12      HKD          0</code></pre>
+##             52-week Range Currency    Volume
+## ^GSPC   4103.78 - 5669.67      USD 260961775
+## ^IXIC 12543.86 - 18671.07      USD 853013634
+## ^DJI    32327.2 - 41376.0      USD  38825841
+## ^FTSE     7279.9 - 8474.4      GBP         0
+## ^N225 30487.67 - 42426.77      JPY         0
+## ^TWII 15975.91 - 24416.67      TWD         0
+## ^HSI  14794.16 - 19706.12      HKD         0</code></pre>
 <pre class="r"><code>getSymbols(&quot;^HSI&quot;, from=&quot;1997-07-02&quot;)</code></pre>
 <pre><code>## Warning: ^HSI contains missing values. Some functions will not work if objects
 ## contain missing values in the middle of the series. Consider using na.omit(),

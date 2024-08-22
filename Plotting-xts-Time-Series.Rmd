@@ -142,8 +142,8 @@ lines(x = basket[,"QQQ.Close"], col = "darkgreen")
 lines(x = basket[,"GDX.Close"], col = "goldenrod")
 lines(x = basket[,"DBO.Close"], col = "darkblue")
 lines(x = basket[,"VWO.Close"], col = "darkviolet")
-legend(x = 'topleft', legend = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
-       lty = 1, col = myColors)
+addLegend('topleft', legend.names = c("SPY", "QQQ", "GDX", "DBO", "VWO"),
+          lty = 1, col = myColors)
 ```
 
 As mentioned, we need to add each time series separately in this case in order to get the desired overlays.  If one were to try `x` = basket in the plot function, the graph would only display the first series (`SPY`), and a warning message would be returned to the R session.  So, we first use the `SPY` series as input to the `plot(.)` function, and then add the remaining series with the `lines(.)` command.  The color for each series is also included at each step (the same colors in our `myColors` vector).
@@ -157,3 +157,31 @@ In the example above, we chose "`years`".  The `minor.ticks` parameter can take 
 ## Wrap-up
 
 A new package, called `xtsExtra`, includes a new `plot(.)` function that provides added functionality, including a legend generator.  However, while it is available on R-Forge, it has not yet made it into the official CRAN repository.  More sophisticated time series plotting capability can also be found in the `quantmod` and `ggplot2` packages, and we will look at the `ggplot2` case in an upcoming post.  However, for plotting `xts` objects quickly and with minimal fuss, the `plot(.)` function in the `zoo` package fills the bill, and with a little more effort, we can refine the scale along the horizontal axis using the `xts` version of `plot(.)`.  `R` help files for each of these can be found by selecting `plot.zoo` and `plot.xts` respectively in help searches.
+
+## Further Notes
+
+The following notes on using `plot.xts` is adapted from a [article](https://stackoverflow.com/questions/69498375/in-r-how-can-i-add-a-legend-to-a-plot-of-an-xts-object) from **stackoverflow**.
+
+```{r message=FALSE, warning=FALSE}
+# Import data
+quantmod::getSymbols(c('SPY','IWM'),
+                     src  = 'yahoo', 
+                     from = '2010-01-01', 
+                     to   = '2021-02-01',
+                     auto.assign = TRUE, 
+                     warnings = FALSE)
+close <- cbind(SPY$SPY.Close, IWM$IWM.Close)
+```
+
+Plot the data:
+
+```{r fig.keep='last'}
+plot.xts(SPY$SPY.Close, ylim = c(0,500), main = "", col = "red")
+lines(IWM$IWM.Close, col = "blue")
+addLegend("topleft", on=1, 
+          legend.names = c("SPY", "IWM"), 
+          lty=c(1, 1), lwd=c(2, 1),
+          col=c("red", "blue"))
+```
+
+
