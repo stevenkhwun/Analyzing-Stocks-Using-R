@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+Sys.setlocale("LC_ALL", "English")
 ```
 
 This document is based on a post on **stackoverflow** with the title [Adding Multiple Chart Series in Quantmod R](https://stackoverflow.com/questions/38136008/adding-multiple-chart-series-in-quantmod-r).

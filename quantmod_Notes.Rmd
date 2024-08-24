@@ -74,6 +74,7 @@ We can create a plot of closing prices and trading volumes with the following co
 ```{r}
 # Create time plot
 chartSeries(HSBC.HK,theme="white")
+Sys.setlocale("LC_ALL", "English")
 ```
 
 We now try another example in getting stock prices of Hon Hai Precision Industry Co., Ltd. (2317.TW) listed in Taiwan Stock Exchange.

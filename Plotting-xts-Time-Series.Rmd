@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+Sys.setlocale("LC_ALL", "English")
 ```
 
 This document is adapted from an article titled [**Quantitative Finance Applications in R - 3: Plotting xts Time Series**](https://blog.revolutionanalytics.com/2014/01/quantitative-finance-applications-in-r-plotting-xts-time-series.html) by _Daniel Hanson_.
