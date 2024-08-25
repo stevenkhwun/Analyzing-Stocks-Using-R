@@ -24,6 +24,7 @@
   * My version of the article [Analyzing Stocks Using R](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Analyzing-Stocks-Using-R.html).
   * [Multiple Chart Series using quantmod](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Multiple_Chart_Series.html)
   * [Plotting xts Time Series](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Plotting-xts-Time-Series.html)
-  * [Quantmod Notes](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/quantmod_Notes.html)
+  * [`Quantmod` Notes](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/quantmod_Notes.html)
+  * [`tidyquant` Notes](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/tidyquant_Notes.html)
   * [Watching List](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Watching-List.html)
   * [Technical Analysis](https://nbviewer.org/github/stevenkhwun/Analyzing-Stocks-Using-R/blob/main/HTML/Technical.html)

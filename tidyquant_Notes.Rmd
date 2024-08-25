@@ -1,0 +1,67 @@
+---
+title: "Retrieve economic data using `tidyquant`"
+author: "SW"
+date: "`r Sys.Date()`"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+Sys.setlocale("LC_ALL", "English")
+```
+
+Various financial and economic data can be retrieved by using `tidyquant` library. Of course, we need to load the library and other necessary library first:
+
+```{r message=FALSE}
+# Load the 'tidyquant' library
+library(tidyquant)
+library(ggplot2)
+```
+
+
+# Get stock prices
+
+The following are some simple examples to get stock prices.
+
+
+```{r}
+# Get stock prices of Apple
+GOLD <- tq_get("GOLD", get = "stock.prices", from="2023-01-01", to="2024-08-16")
+NVDA <- tq_get("NVDA", get = "stock.prices", from = (Sys.Date()-730),
+               to = Sys.Date())
+tail(GOLD)
+tail(NVDA)
+```
+
+# An example from POE
+
+```{r}
+# Download some stock data
+stock_data <- tq_get("AAPL", get = "stock.prices", from = "2024-01-01")
+
+# Create a candlestick chart
+stock_data %>%
+  ggplot(aes(x = date, open = open, high = high, low = low, close = close)) +
+  geom_candlestick() +
+  ggtitle("Apple Inc. (AAPL) Stock Price")
+
+# Create a price plot
+stock_data %>%
+  ggplot(aes(x = date, y = adjusted)) +
+  geom_line() +
+  ggtitle("Apple Inc. (AAPL) Adjusted Closing Price")
+
+# Create a volume plot
+stock_data %>%
+  ggplot(aes(x = date, y = volume)) +
+  geom_bar(stat = "identity") +
+  ggtitle("Apple Inc. (AAPL) Trading Volume")
+
+# Create a moving average plot
+stock_data %>%
+  tq_transmute(select = c(adjusted), mutate_fun = SMA, n = 20) %>%
+  ggplot(aes(x = date, y = SMA)) +
+  geom_line() +
+  ggtitle("Apple Inc. (AAPL) 20-day Moving Average")
+```
+

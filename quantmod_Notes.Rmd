@@ -7,6 +7,7 @@ output: html_document
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
+Sys.setlocale("LC_ALL", "English")
 ```
 
 Various financial and economic data can be retrieved by using `quantmod` library. Of course, we need to load the library first:
@@ -74,7 +75,6 @@ We can create a plot of closing prices and trading volumes with the following co
 ```{r}
 # Create time plot
 chartSeries(HSBC.HK,theme="white")
-Sys.setlocale("LC_ALL", "English")
 ```
 
 We now try another example in getting stock prices of Hon Hai Precision Industry Co., Ltd. (2317.TW) listed in Taiwan Stock Exchange.
