@@ -10,7 +10,7 @@ knitr::opts_chunk$set(echo = TRUE)
 Sys.setlocale("LC_ALL", "English")
 ```
 
-## World Container Index (WCI)
+# World Container Index (WCI)
 
 The [Drewry World Container Index (WCI)](https://www.drewry.co.uk/supply-chain-advisors/world-container-index-weekly-update) measures the bi-weekly ocean freight rate movements of 40-foot containers in seven major maritime lanes. It is expressed as an average price per 40-foot container (in US$). The following article explains the relationship between WCI and inflation rate.
 
@@ -18,3 +18,6 @@ The [Drewry World Container Index (WCI)](https://www.drewry.co.uk/supply-chain-a
 
 
 
+# References
+
+[**Techincal Analysis with R**](https://bookdown.org/kochiuyu/Technical-Analysis-with-R/) by _Ko Chiu Yu_.
