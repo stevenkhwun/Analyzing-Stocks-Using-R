@@ -2,7 +2,9 @@
 title: "Analyzing Stocks Using R"
 author: "SW"
 date: "`r Sys.Date()`"
-output: html_document
+output:
+  html_document: default
+  pdf_document: default
 ---
 
 ```{r setup, include=FALSE}
@@ -36,18 +38,26 @@ Firstly, I create my watching list:
 ```{r results='hide'}
 index <- c("^GSPC", "^IXIC", "^DJI", "^FTSE", "^N225","^TWII", "^HSI")
 
-tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK")
+tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK", "0939.HK")
 ```
 
 Get some knowledge of their performance first:
 
-```{r}
+```{r warning=FALSE}
+# Get raw data
 what_metrics1 <- yahooQF(c("Name",
                           "Currency",
                           "Last Trade (Price Only)",
                           "P/E Ratio",
                           "Dividend Yield"))
-getQuote(tickers, what = what_metrics1)
+stocks <- getQuote(tickers, what = what_metrics1)
+
+# Convert to a more readable format
+stocks[, "Yield (%)"] <- stocks[, "Dividend Yield"] * 100
+stocks[, "Yield (%)"] <- sprintf(stocks[, "Yield (%)"], fmt = '%.2f')
+stocks[, "P/E Ratio"] <- sprintf(stocks[, "P/E Ratio"], fmt = '%.2f')
+stocks[, "Trade Time"] <- format(stocks[, "Trade Time"], format = "%b %d, %Y")
+stocks[, c(1:5, 7)]
 ```
 
 ```{r}
