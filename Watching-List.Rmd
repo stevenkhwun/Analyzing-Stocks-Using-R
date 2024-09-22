@@ -45,9 +45,12 @@ Get some knowledge of their performance first:
 
 ```{r warning=FALSE}
 # Get raw data
+# Type "yahooQF()" to get a list of metrics
 what_metrics1 <- yahooQF(c("Name",
                           "Currency",
                           "Last Trade (Price Only)",
+                          "52-week Low",
+                          "52-week High",
                           "P/E Ratio",
                           "Dividend Yield"))
 stocks <- getQuote(tickers, what = what_metrics1)
@@ -57,8 +60,12 @@ stocks[, "Yield (%)"] <- stocks[, "Dividend Yield"] * 100
 stocks[, "Yield (%)"] <- sprintf(stocks[, "Yield (%)"], fmt = '%.2f')
 stocks[, "P/E Ratio"] <- sprintf(stocks[, "P/E Ratio"], fmt = '%.2f')
 stocks[, "Trade Time"] <- format(stocks[, "Trade Time"], format = "%b %d, %Y")
-stocks[, c(1:5, 7)]
+
+# Print the table
+library(knitr)
+kable(stocks[, c(1:7, 9)], caption = "Latest Performance")
 ```
+
 
 ```{r}
 what_metrics2 <- yahooQF(c("Name",
