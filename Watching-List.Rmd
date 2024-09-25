@@ -38,7 +38,9 @@ Firstly, I create my watching list:
 ```{r results='hide'}
 index <- c("^GSPC", "^IXIC", "^DJI", "^FTSE", "^N225","^TWII", "^HSI")
 
-tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK", "0939.HK")
+us_tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "BLK")
+
+hk_tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK", "0939.HK")
 ```
 
 Get some knowledge of their performance first:
@@ -49,11 +51,10 @@ Get some knowledge of their performance first:
 what_metrics1 <- yahooQF(c("Name",
                           "Currency",
                           "Last Trade (Price Only)",
-                          "52-week Low",
-                          "52-week High",
+                          "52-week Range",
                           "P/E Ratio",
                           "Dividend Yield"))
-stocks <- getQuote(tickers, what = what_metrics1)
+stocks <- getQuote(us_tickers, what = what_metrics1)
 
 # Convert to a more readable format
 stocks[, "Yield (%)"] <- stocks[, "Dividend Yield"] * 100
@@ -63,7 +64,7 @@ stocks[, "Trade Time"] <- format(stocks[, "Trade Time"], format = "%b %d, %Y")
 
 # Print the table
 library(knitr)
-kable(stocks[, c(1:7, 9)], caption = "Latest Performance")
+kable(stocks[, c(1:6, 8)], caption = "Latest Performance")
 ```
 
 
@@ -78,7 +79,7 @@ getQuote(index, what = what_metrics2)
 
 ```{r}
 getSymbols("^HSI", from="1997-07-02")
-head(HSI, n=3)
+tail(HSI, n=3)
 ```
 
 ```{r}
@@ -94,7 +95,7 @@ chart_Series(Vo(HSI)[window])
 
 ```{r}
 getSymbols("AMZN")
-getSymbols(tickers)
+getSymbols(us_tickers)
 tail(AMZN, n=3)
 ```
 
