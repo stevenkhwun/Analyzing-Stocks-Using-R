@@ -79,6 +79,7 @@ getQuote(index, what = what_metrics2)
 
 ```{r}
 getSymbols("^HSI", from="1997-07-02")
+head(HSI, n=5)
 tail(HSI, n=3)
 ```
 
@@ -88,7 +89,7 @@ chartSeries((HSI)[window],theme="white")
 ```
 
 ```{r}
-window <- "2018/"
+window <- "2002/"
 chart_Series(Vo(HSI)[window])
 ```
 
