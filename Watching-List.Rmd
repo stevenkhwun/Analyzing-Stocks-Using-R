@@ -40,7 +40,7 @@ index <- c("^GSPC", "^IXIC", "^DJI", "^FTSE", "^N225","^TWII", "^HSI")
 
 us_tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "BLK")
 
-hk_tickers <- c("AAPL", "AMZN", "NVDA", "GOLD", "GOOG", "GOOGL", "0001.HK", "0005.HK", "0939.HK")
+hk_tickers <- c("0001.HK", "0005.HK", "0939.HK")
 ```
 
 Get some knowledge of their performance first:
@@ -52,6 +52,7 @@ what_metrics1 <- yahooQF(c("Name",
                           "Currency",
                           "Last Trade (Price Only)",
                           "52-week Range",
+                          "50-day Moving Average",
                           "P/E Ratio",
                           "Dividend Yield"))
 stocks <- getQuote(us_tickers, what = what_metrics1)
@@ -64,8 +65,26 @@ stocks[, "Trade Time"] <- format(stocks[, "Trade Time"], format = "%b %d, %Y")
 
 # Print the table
 library(knitr)
-kable(stocks[, c(1:6, 8)], caption = "Latest Performance")
+kable(stocks[, c(1:7, 9)], caption = "Latest Performance")
 ```
+
+
+```{r warning=FALSE}
+# Get raw data
+# Type "yahooQF()" to get a list of metrics
+hkstocks <- getQuote(hk_tickers, what = what_metrics1)
+
+# Convert to a more readable format
+hkstocks[, "Yield (%)"] <- hkstocks[, "Dividend Yield"] * 100
+hkstocks[, "Yield (%)"] <- sprintf(hkstocks[, "Yield (%)"], fmt = '%.2f')
+hkstocks[, "P/E Ratio"] <- sprintf(hkstocks[, "P/E Ratio"], fmt = '%.2f')
+hkstocks[, "Trade Time"] <- format(hkstocks[, "Trade Time"], format = "%b %d, %Y")
+
+# Print the table
+library(knitr)
+kable(hkstocks[, c(1:7, 9)], caption = "Latest Performance")
+```
+
 
 
 ```{r}
@@ -74,7 +93,6 @@ what_metrics2 <- yahooQF(c("Name",
                           "52-week Range",
                           "Currency",
                           "Volume"))
-getQuote(index, what = what_metrics2)
 ```
 
 ```{r}
@@ -87,6 +105,20 @@ tail(HSI, n=3)
 window <- "2021/"
 chartSeries((HSI)[window],theme="white")
 ```
+
+```{r}
+HSI %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2023/', theme = "white")
+```
+
+```{r}
+HSBC.HK <- getSymbols("0005.HK",from="1997-08-17", to=Sys.Date(),
+                      auto.assign = FALSE)
+HSBC.HK %>% chartSeries(TA='addBBands(); addSMA(n=250); addVo(); addMACD()', subset = '2023/', theme = "white")
+```
+
+
+
+
 
 ```{r}
 window <- "2002/"
@@ -110,18 +142,25 @@ I started by doing a technical analysis of Amazon’s stock:
 The first chart series graph is straightforward as it shows Amazon’s price chart:
 
 ```{r}
-GOLD %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2024/', theme = "white")
+GOLD %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2023/', theme = "white")
 ```
+
+```{r}
+NVDA %>% chartSeries(TA='addBBands(); addSMA(n=250); addVo(); addMACD()', subset = '2023/', theme = "white")
+```
+
 
 The second chart series show the Bollinger Band chart, % Bollinger change, Volume
 Traded and Moving Average Convergence Diverence for 2018:
 
 ```{r}
-HSI %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2024/', theme = "white")
+HSI %>% chartSeries(TA='addBBands(); addVo(); addMACD()', subset = '2023/', theme = "white")
 ```
+
+
 
 The moving average is important to understanding Amazon (AMZN)’s technical charts. It smoothes out daily price fluctuations by averaging stock prices and is effective in identifying potential trends.
 
-The Bollinger Band chart plots two standard deviations away from the moving average and is used to measure the stock’s volatiliy. The Volume chart shows how its stocks are traded on the daily. The Moving Average Convergence Divergence gives technical analysts buy/sell signals. The rule of thumb is: If it falls below the line, it is time to sell. If it rises above the line, it is experiencing an upward momentum.
+The Bollinger Band chart plots two standard deviations away from the moving average and is used to measure the stock’s volatility. The Volume chart shows how its stocks are traded on the daily. The Moving Average Convergence Divergence gives technical analysts buy/sell signals. The rule of thumb is: If it falls below the line, it is time to sell. If it rises above the line, it is experiencing an upward momentum.
 
 The charts above are usually used to decide whether to buy/sell a stock. Since I am not a certified financial analyst, I decided to do additional research to convince myself.
