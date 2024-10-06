@@ -48,6 +48,10 @@ library(PerformanceAnalytics)
 * beware of sharp breaks below the 50-day or 10-week moving average
 
 
+### Technical Analysis
+
+Please refer to the article [Technical analysis in R](https://rpubs.com/Veroni/1023480) for more information about technical analysis.
+
 
 ## Watching List
 
