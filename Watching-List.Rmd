@@ -13,9 +13,6 @@ Sys.setlocale("LC_ALL", "English")
 ```
 
 
-
-First I create my watching list:
-
 ```{r echo=TRUE, warning=FALSE, message=FALSE}
 # Load the required packages
 library(quantmod)
@@ -31,9 +28,94 @@ library(PerformanceAnalytics)
 ```
 
 
+## Investment rules
+
+### IBD Methodology
+
+* Invest in stocks with recent quarterly and annual earnings growth of at least 25%.
+* Look for companies that have new, game-changing products and services.
+* Consider not-yet-profitable companies, often IPOs, that are generating tremendous revenue growth.
+
+
+### Keep track of the market
+
+* Market is in a confirmed uptrend and move to cash when stock market goes into a correction.
+
+
+### Sell signals
+
+* Any stocks that falls 7% or 8% from your purchase price should be jettisoned.
+* beware of sharp breaks below the 50-day or 10-week moving average
+
+
+
 ## Watching List
 
 Firstly, I create my watching list:
+
+### AI related
+
+```{r warning=FALSE}
+# Get raw data
+# Type "yahooQF()" to get a list of metrics
+ai_tickers <- c("ORCL", "CRM", "PLTR", "V", "UNH", "JPM", "MA", "TM", "SIEGY",
+                "LLY", "NVO", "JNJ", "NVDA", "AMD", "ARM", "TSM", "TSLA",
+                "UBER", "CKI.L")
+
+what_metrics1 <- yahooQF(c("Name",
+                          "Currency",
+                          "Last Trade (Price Only)",
+                          "52-week Range",
+                          "50-day Moving Average",
+                          "P/E Ratio",
+                          "Dividend Yield"))
+ai_stocks <- getQuote(ai_tickers, what = what_metrics1)
+
+# Convert to a more readable format
+ai_stocks[, "Yield (%)"] <- ai_stocks[, "Dividend Yield"] * 100
+ai_stocks[, "Yield (%)"] <- sprintf(ai_stocks[, "Yield (%)"], fmt = '%.2f')
+ai_stocks[, "P/E Ratio"] <- sprintf(ai_stocks[, "P/E Ratio"], fmt = '%.2f')
+ai_stocks[, "Trade Time"] <- format(ai_stocks[, "Trade Time"], format = "%b %d, %Y")
+
+# Print the table
+library(knitr)
+kable(ai_stocks[, c(1:7, 9)], caption = "Latest Performance")
+```
+
+
+### Others
+
+```{r warning=FALSE}
+# Get raw data
+# Type "yahooQF()" to get a list of metrics
+ot_tickers <- c("WMT", "COST", "SNA", "SWK", "6586.T")
+
+what_metrics1 <- yahooQF(c("Name",
+                          "Currency",
+                          "Last Trade (Price Only)",
+                          "52-week Range",
+                          "50-day Moving Average",
+                          "P/E Ratio",
+                          "Dividend Yield"))
+ot_stocks <- getQuote(ot_tickers, what = what_metrics1)
+
+# Convert to a more readable format
+ot_stocks[, "Yield (%)"] <- ot_stocks[, "Dividend Yield"] * 100
+ot_stocks[, "Yield (%)"] <- sprintf(ot_stocks[, "Yield (%)"], fmt = '%.2f')
+ot_stocks[, "P/E Ratio"] <- sprintf(ot_stocks[, "P/E Ratio"], fmt = '%.2f')
+ot_stocks[, "Trade Time"] <- format(ot_stocks[, "Trade Time"], format = "%b %d, %Y")
+
+# Print the table
+library(knitr)
+kable(ot_stocks[, c(1:7, 9)], caption = "Latest Performance")
+```
+
+
+
+
+
+
+
 
 ```{r results='hide'}
 index <- c("^GSPC", "^IXIC", "^DJI", "^FTSE", "^N225","^TWII", "^HSI")
